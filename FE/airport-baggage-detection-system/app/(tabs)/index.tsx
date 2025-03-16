@@ -6,13 +6,14 @@ import EmojiSticker from "@/components/EmojiSticker";
 import IconButton from "@/components/IconButton";
 import ImageViewer from "@/components/ImageViewer";
 import { useAuth } from "@/context/AuthenticationContext";
+import { uploadImage } from "@/services/StorageService";
 import domtoimage from "dom-to-image";
 import { type ImageSource } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import { router } from "expo-router";
 import { useEffect, useRef, useState } from "react";
-import { Platform, StyleSheet, View } from "react-native";
+import { Alert, Platform, StyleSheet, View } from "react-native";
 import { captureRef } from "react-native-view-shot";
 
 const PlaceholderImage = require("../../assets/images/image.png");
@@ -24,12 +25,12 @@ export default function Index() {
   const [selectedImage, setSelectedImage] = useState<string | undefined>(
     undefined
   );
-
   const [showAppOptions, setShowAppOption] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [pickedEmoji, setPickedEmoji] = useState<ImageSource | undefined>(
     undefined
   );
+  const [isSaving, setIsSaving] = useState<boolean>(false);
   useEffect(() => {
     if (!isLoading && !user) {
       router.replace("/");
@@ -77,6 +78,7 @@ export default function Index() {
 
   const onReset = () => {
     setShowAppOption(false);
+    setPickedEmoji(undefined);
   };
 
   const onAddSticker = () => {
@@ -88,9 +90,22 @@ export default function Index() {
   };
 
   const onSaveImageAsync = async () => {
-    if (Platform.OS !== "web") {
-      try {
-        const localUri = await captureRef(imageRef, {
+    if (!selectedImage) {
+      Alert.alert("Error", "No image selected");
+      return;
+    }
+
+    if (!user) {
+      Alert.alert("Error", "You must be logged in to save image");
+      return;
+    }
+
+    setIsSaving(true);
+
+    try {
+      let localUri;
+      if (Platform.OS !== "web") {
+        localUri = await captureRef(imageRef, {
           height: 440,
           quality: 1,
         });
@@ -99,25 +114,35 @@ export default function Index() {
         if (localUri) {
           alert("Saved!");
         }
-      } catch (e) {
-        console.log(e);
-      }
-    } else {
-      try {
-        // @ts-ignore
-        const dataUrl = await domtoimage.toJpeg(imageRef.current, {
-          quality: 0.95,
-          width: 320,
-          height: 440,
-        });
+      } else {
+        if (imageRef.current) {
+          const dataUrl = await domtoimage.toJpeg(imageRef.current, {
+            quality: 0.95,
+            width: 320,
+            height: 440,
+          });
 
-        let link = document.createElement("a");
-        link.download = "sticker-smash.jpeg";
-        link.href = dataUrl;
-        link.click();
-      } catch (e) {
-        console.log(e);
+          let link = document.createElement("a");
+          link.download = "sticker-smash.jpeg";
+          link.href = dataUrl;
+          link.click();
+          localUri = dataUrl;
+        } else {
+          throw new Error("Image reference is null");
+        }
       }
+
+      await uploadImage(localUri, user.uid, user.username, !!pickedEmoji);
+
+      Alert.alert(
+        "Success",
+        "Your image has been saved to your device and uploaded to your account!"
+      );
+    } catch (e) {
+      console.error(e);
+      Alert.alert("Error", "Failed to save image. Please try again.");
+    } finally {
+      setIsSaving(false);
     }
   };
 
