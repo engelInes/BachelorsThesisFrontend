@@ -5,11 +5,12 @@ import EmojiPicker from "@/components/EmojiPicker";
 import EmojiSticker from "@/components/EmojiSticker";
 import IconButton from "@/components/IconButton";
 import ImageViewer from "@/components/ImageViewer";
+import domtoimage from "dom-to-image";
 import { type ImageSource } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import { useRef, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 import { captureRef } from "react-native-view-shot";
 
 const PlaceholderImage = require("../../assets/images/image.png");
@@ -41,6 +42,27 @@ export default function Index() {
     }
   };
 
+  const takePhotoAsync = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+
+    if (status !== "granted") {
+      alert("we need camera permissions");
+      return;
+    }
+
+    let result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setSelectedImage(result.assets[0].uri);
+      setShowAppOption(true);
+    } else {
+      alert("You did not take any photo");
+    }
+  };
+
   const onReset = () => {
     setShowAppOption(false);
   };
@@ -54,18 +76,36 @@ export default function Index() {
   };
 
   const onSaveImageAsync = async () => {
-    try {
-      const localUri = await captureRef(imageRef, {
-        height: 440,
-        quality: 1,
-      });
+    if (Platform.OS !== "web") {
+      try {
+        const localUri = await captureRef(imageRef, {
+          height: 440,
+          quality: 1,
+        });
 
-      await MediaLibrary.saveToLibraryAsync(localUri);
-      if (localUri) {
-        alert("Saved!");
+        await MediaLibrary.saveToLibraryAsync(localUri);
+        if (localUri) {
+          alert("Saved!");
+        }
+      } catch (e) {
+        console.log(e);
       }
-    } catch (e) {
-      console.log(e);
+    } else {
+      try {
+        // @ts-ignore
+        const dataUrl = await domtoimage.toJpeg(imageRef.current, {
+          quality: 0.95,
+          width: 320,
+          height: 440,
+        });
+
+        let link = document.createElement("a");
+        link.download = "sticker-smash.jpeg";
+        link.href = dataUrl;
+        link.click();
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 
@@ -101,6 +141,7 @@ export default function Index() {
             label="Choose photo"
             theme="primary"
           />
+          <Button onPress={takePhotoAsync} label="Take photo" theme="primary" />
           <Button
             label="Use this photo"
             onPress={() => setShowAppOption(true)}
@@ -141,6 +182,7 @@ const styles = StyleSheet.create({
   footerContainer: {
     flex: 1 / 3,
     alignItems: "center",
+    justifyContent: "space-evenly",
   },
   optionsContainer: {
     position: "absolute",
