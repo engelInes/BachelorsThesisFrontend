@@ -5,17 +5,20 @@ import EmojiPicker from "@/components/EmojiPicker";
 import EmojiSticker from "@/components/EmojiSticker";
 import IconButton from "@/components/IconButton";
 import ImageViewer from "@/components/ImageViewer";
+import { useAuth } from "@/context/AuthenticationContext";
 import domtoimage from "dom-to-image";
 import { type ImageSource } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
-import { useRef, useState } from "react";
+import { router } from "expo-router";
+import { useEffect, useRef, useState } from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import { captureRef } from "react-native-view-shot";
 
 const PlaceholderImage = require("../../assets/images/image.png");
 
 export default function Index() {
+  const { user, isLoading } = useAuth();
   const imageRef = useRef<View>(null);
   const [status, requestPermisiion] = MediaLibrary.usePermissions();
   const [selectedImage, setSelectedImage] = useState<string | undefined>(
@@ -27,6 +30,15 @@ export default function Index() {
   const [pickedEmoji, setPickedEmoji] = useState<ImageSource | undefined>(
     undefined
   );
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.replace("/");
+    }
+  }, [user, isLoading]);
+
+  if (isLoading || !user) {
+    return null;
+  }
 
   const pcikImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({

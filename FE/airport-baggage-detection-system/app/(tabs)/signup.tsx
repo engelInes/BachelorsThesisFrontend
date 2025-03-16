@@ -1,4 +1,3 @@
-import { useAuth } from "@/context/AuthenticationContext";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -9,37 +8,41 @@ import {
   View,
 } from "react-native";
 
-export default function LoginScreen() {
-  const { login } = useAuth();
+export default function SignupScreen() {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleLogin = async () => {
-    if (!email || !password) {
-      setError("Email and password are required");
+  const handleSignup = () => {
+    if (!username || !email || !password || !confirmPassword) {
+      setError("All fields are required");
       return;
     }
 
-    setIsSubmitting(true);
-    setError("");
-    try {
-      await login(email, password);
-      // (tabs)
-      router.replace("/(tabs)");
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "login failed");
-    } finally {
-      setIsSubmitting(false);
+    if (password !== confirmPassword) {
+      setError("Passwords don't match");
+      return;
     }
+    console.log("Signup with:", { username, email, password });
+    // router.replace("/(tabs)");
+    router.replace("/");
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome Back</Text>
+      <Text style={styles.title}>Create Account</Text>
 
       {error ? <Text style={styles.errorText}>{error}</Text> : null}
+
+      <TextInput
+        style={styles.input}
+        placeholder="Username"
+        placeholderTextColor="#999"
+        value={username}
+        onChangeText={setUsername}
+      />
 
       <TextInput
         style={styles.input}
@@ -60,17 +63,23 @@ export default function LoginScreen() {
         secureTextEntry
       />
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Log In</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Confirm Password"
+        placeholderTextColor="#999"
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
+        secureTextEntry
+      />
+
+      <TouchableOpacity style={styles.button} onPress={handleSignup}>
+        <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
 
-      <Text style={styles.buttonText}>
-        {isSubmitting ? "Loggin in..." : "Log in"}
-      </Text>
       <View style={styles.linkContainer}>
-        <Text style={styles.text}>Don't have an account? </Text>
-        <TouchableOpacity onPress={() => router.replace("/signup")}>
-          <Text style={styles.linkText}>Sign Up</Text>
+        <Text style={styles.text}>Already have an account? </Text>
+        <TouchableOpacity onPress={() => router.replace("/login")}>
+          <Text style={styles.linkText}>Log In</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -5,31 +5,41 @@ type Props = {
   label: string;
   theme?: "primary";
   onPress?: () => void;
+  disabled?: boolean;
 };
 
-export default function Button({ label, theme, onPress }: Props) {
-  return (
-    <View style={styles.buttonContainer}>
-      <Pressable
-        style={[styles.button, theme === "primary" && styles.primaryButton]}
-        onPress={onPress}
-      >
-        {theme === "primary" && (
+export default function Button({
+  label,
+  theme,
+  onPress,
+  disabled = false,
+}: Props) {
+  if (theme === "primary") {
+    return (
+      <View style={[styles.buttonContainer, disabled && styles.buttonDisabled]}>
+        <Pressable
+          style={[styles.button, { backgroundColor: "#ffd33d" }]}
+          onPress={onPress}
+          disabled={disabled}
+        >
           <FontAwesome
             name="picture-o"
             size={18}
             color="#25292e"
             style={styles.buttonIcon}
           />
-        )}
-        <Text
-          style={[
-            styles.buttonLabel,
-            theme === "primary" && styles.primaryButtonLabel,
-          ]}
-        >
-          {label}
-        </Text>
+          <Text style={[styles.buttonLabel, { color: "#25292e" }]}>
+            {label}
+          </Text>
+        </Pressable>
+      </View>
+    );
+  }
+
+  return (
+    <View style={[styles.buttonContainer, disabled && styles.buttonDisabled]}>
+      <Pressable style={styles.button} onPress={onPress} disabled={disabled}>
+        <Text style={styles.buttonLabel}>{label}</Text>
       </Pressable>
     </View>
   );
@@ -63,5 +73,8 @@ const styles = StyleSheet.create({
   },
   primaryButton: {
     backgroundColor: "#fff",
+  },
+  buttonDisabled: {
+    opacity: 0.5,
   },
 });
