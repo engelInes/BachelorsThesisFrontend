@@ -8,11 +8,14 @@ LogBox.ignoreAllLogs(true);
 
 export default function RootLayout() {
   const { user, isLoading } = useAuth();
-  if (!isLoading && !user) {
-    useEffect(() => {
-      router.replace("/login");
-    }, [user, isLoading]);
-  }
+  useEffect(() => {
+    if (!isLoading && !user) {
+      setTimeout(() => {
+        router.replace("/login");
+      }, 0);
+    }
+  }, [user, isLoading]);
+
   return (
     <Tabs
       screenOptions={{

@@ -1,7 +1,9 @@
+import { useAuth } from "@/context/AuthenticationContext";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
   StyleSheet,
+  Switch,
   Text,
   TextInput,
   TouchableOpacity,
@@ -9,13 +11,16 @@ import {
 } from "react-native";
 
 export default function SignupScreen() {
+  const { signup } = useAuth();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
     if (!username || !email || !password || !confirmPassword) {
       setError("All fields are required");
       return;
@@ -25,9 +30,24 @@ export default function SignupScreen() {
       setError("Passwords don't match");
       return;
     }
-    console.log("Signup with:", { username, email, password });
-    // router.replace("/(tabs)");
-    router.replace("/");
+
+    setIsSubmitting(true);
+    setError("");
+    try {
+      await signup(username, email, password, isAdmin ? "admin" : "user");
+      router.replace("/(tabs)");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Signup failed");
+    } finally {
+      setIsSubmitting(false);
+    }
+    console.log("Signup with:", {
+      username,
+      email,
+      password,
+      accounType: isAdmin ? "admin" : "user",
+    });
+    //router.replace("/");
   };
 
   return (
@@ -71,6 +91,16 @@ export default function SignupScreen() {
         onChangeText={setConfirmPassword}
         secureTextEntry
       />
+
+      <View style={styles.switchContainer}>
+        <Text style={styles.switchLabel}>Admin Account</Text>
+        <Switch
+          trackColor={{ false: "#767577", true: "#81b0ff" }}
+          thumbColor={isAdmin ? "#ffd33d" : "#f4f3f4"}
+          onValueChange={setIsAdmin}
+          value={isAdmin}
+        />
+      </View>
 
       <TouchableOpacity style={styles.button} onPress={handleSignup}>
         <Text style={styles.buttonText}>Sign Up</Text>
@@ -137,5 +167,16 @@ const styles = StyleSheet.create({
   linkText: {
     color: "#ffd33d",
     textDecorationLine: "underline",
+  },
+  switchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    marginBottom: 15,
+  },
+  switchLabel: {
+    color: "white",
+    fontSize: 16,
   },
 });
