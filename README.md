@@ -1,1 +1,1 @@
-# BachelorsThesisFrontend
+# Bachelors Thesis
