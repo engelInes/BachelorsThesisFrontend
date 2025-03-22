@@ -1,6 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
+const API_URL = "http://192.168.1.134:5000/api";
+
 type User = {
   id: string;
   username: string;
@@ -10,6 +12,7 @@ type User = {
 
 type AuthContextType = {
   user: User | null;
+  token: string | null;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   signup: (
@@ -20,6 +23,8 @@ type AuthContextType = {
   ) => Promise<void>;
   logout: () => Promise<void>;
   isAdmin: () => boolean;
+  getUserImages: () => Promise<any[]>;
+  uploadImage: (uri: string) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -28,40 +33,60 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const checkUser = async () => {
+    const loadStoredData = async () => {
       try {
-        const userData = await AsyncStorage.getItem("user");
-        if (userData) {
-          setUser(JSON.parse(userData));
+        const [storedToken, storedUser] = await Promise.all([
+          AsyncStorage.getItem("token"),
+          AsyncStorage.getItem("user"),
+        ]);
+
+        if (storedToken && storedUser) {
+          setToken(storedToken);
+          setUser(JSON.parse(storedUser));
         }
       } catch (error) {
-        console.log("Error retrieving user data:", error);
+        console.log("Error retrieving stored data:", error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    checkUser();
+    loadStoredData();
   }, []);
 
   const login = async (email: string, password: string) => {
     setIsLoading(true);
-    const mockUser: User = {
-      id: "123",
-      username: email.split("@")[0],
-      email,
-      accountType: "user",
-    };
-
     try {
-      await AsyncStorage.setItem("user", JSON.stringify(mockUser));
-      setUser(mockUser);
+      const response = await fetch(`${API_URL}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to login");
+      }
+
+      const { token: authToken, user: userData } = data;
+
+      await Promise.all([
+        AsyncStorage.setItem("token", authToken),
+        AsyncStorage.setItem("user", JSON.stringify(userData)),
+      ]);
+
+      setToken(authToken);
+      setUser(userData);
     } catch (error) {
-      console.log("Error saving user data:", error);
-      throw new Error("Failed to login");
+      console.log("Login error:", error);
+      throw error;
     } finally {
       setIsLoading(false);
     }
@@ -74,19 +99,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     accountType: "user" | "admin"
   ) => {
     setIsLoading(true);
-    const mockUser: User = {
-      id: "123",
-      username,
-      email,
-      accountType: "user",
-    };
-
     try {
-      await AsyncStorage.setItem("user", JSON.stringify(mockUser));
-      setUser(mockUser);
+      const response = await fetch(`${API_URL}/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, email, password, accountType }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to signup");
+      }
+
+      const { token: authToken, user: userData } = data;
+
+      await Promise.all([
+        AsyncStorage.setItem("token", authToken),
+        AsyncStorage.setItem("user", JSON.stringify(userData)),
+      ]);
+
+      setToken(authToken);
+      setUser(userData);
     } catch (error) {
-      console.log("Error saving user data:", error);
-      throw new Error("Failed to signup");
+      console.log("Signup error:", error);
+      throw error;
     } finally {
       setIsLoading(false);
     }
@@ -95,12 +134,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const logout = async () => {
     setIsLoading(true);
     try {
-      await AsyncStorage.removeItem("user");
+      await Promise.all([
+        AsyncStorage.removeItem("token"),
+        AsyncStorage.removeItem("user"),
+      ]);
+
+      setToken(null);
       setUser(null);
       console.log("logged out");
       return Promise.resolve();
     } catch (error) {
-      console.log("Error removing user data:", error);
+      console.log("Error during logout:", error);
       throw new Error("Failed to logout");
     } finally {
       setIsLoading(false);
@@ -111,9 +155,84 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return user?.accountType === "admin";
   };
 
+  const getUserImages = async () => {
+    if (!token) {
+      throw new Error("Not authenticated");
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/user/images`, {
+        headers: {
+          "x-auth-token": token,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch images");
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching user images:", error);
+      throw error;
+    }
+  };
+
+  const uploadImage = async (uri: string) => {
+    if (!token || !user) {
+      throw new Error("Not authenticated");
+    }
+
+    try {
+      // Create form data for file upload
+      const formData = new FormData();
+      const filename = uri.split("/").pop() || "image.jpg";
+      const match = /\.(\w+)$/.exec(filename);
+      const type = match ? `image/${match[1]}` : "image/jpeg";
+
+      // @ts-ignore
+      formData.append("image", {
+        uri,
+        name: filename,
+        type,
+      });
+
+      console.log("Uploading image:", uri);
+      console.log("FormData:", JSON.stringify(formData));
+      const response = await fetch(`${API_URL}/upload`, {
+        method: "POST",
+        headers: {
+          "x-auth-token": token,
+          //"Content-Type": "multipart/form-data",
+        },
+        body: formData,
+      });
+
+      console.log("upload response status:", response.status);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Upload failed");
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      throw error;
+    }
+  };
   return (
     <AuthContext.Provider
-      value={{ user, isLoading, login, signup, logout, isAdmin }}
+      value={{
+        user,
+        token,
+        isLoading,
+        login,
+        signup,
+        logout,
+        isAdmin,
+        getUserImages,
+        uploadImage,
+      }}
     >
       {children}
     </AuthContext.Provider>

@@ -12,7 +12,7 @@ import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import { router } from "expo-router";
 import { useEffect, useRef, useState } from "react";
-import { Platform, StyleSheet, View } from "react-native";
+import { Alert, Platform, StyleSheet, View } from "react-native";
 import { captureRef } from "react-native-view-shot";
 
 const PlaceholderImage = require("../../assets/images/image.png");
@@ -24,7 +24,8 @@ export default function Index() {
   const [selectedImage, setSelectedImage] = useState<string | undefined>(
     undefined
   );
-
+  const { uploadImage } = useAuth();
+  const [isSaving, setIsSaving] = useState<boolean>(false);
   const [showAppOptions, setShowAppOption] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [pickedEmoji, setPickedEmoji] = useState<ImageSource | undefined>(
@@ -88,6 +89,7 @@ export default function Index() {
   };
 
   const onSaveImageAsync = async () => {
+    setIsSaving(true);
     if (Platform.OS !== "web") {
       try {
         const localUri = await captureRef(imageRef, {
@@ -97,10 +99,24 @@ export default function Index() {
 
         await MediaLibrary.saveToLibraryAsync(localUri);
         if (localUri) {
-          alert("Saved!");
+          try {
+            await uploadImage(localUri);
+            Alert.alert(
+              "Success",
+              "Image saved locally and uploaded to your account!"
+            );
+          } catch (error) {
+            console.error("Upload error:", error);
+            Alert.alert(
+              "Partially Saved",
+              "Image saved to your device but failed to upload to your account."
+            );
+          }
         }
       } catch (e) {
         console.log(e);
+      } finally {
+        setIsSaving(false);
       }
     } else {
       try {
@@ -115,6 +131,17 @@ export default function Index() {
         link.download = "sticker-smash.jpeg";
         link.href = dataUrl;
         link.click();
+
+        const response = await fetch(dataUrl);
+        const blob = await response.blob();
+        const file = new File([blob], "sticker-smash.jpeg", {
+          type: "image/jpeg",
+        });
+
+        const formData = new FormData();
+        formData.append("image", file);
+
+        Alert.alert("Success", "Image saved!");
       } catch (e) {
         console.log(e);
       }

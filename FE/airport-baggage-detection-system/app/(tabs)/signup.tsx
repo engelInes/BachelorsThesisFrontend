@@ -47,7 +47,6 @@ export default function SignupScreen() {
       password,
       accounType: isAdmin ? "admin" : "user",
     });
-    //router.replace("/");
   };
 
   return (

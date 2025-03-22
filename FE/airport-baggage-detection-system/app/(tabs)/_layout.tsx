@@ -39,6 +39,16 @@ export default function RootLayout() {
         }}
       />
       <Tabs.Screen
+        name="my-images"
+        options={{
+          headerTitle: "My Stickers",
+          tabBarLabel: "My Stickers",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="images" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="login"
         options={{
           headerTitle: "Login",
