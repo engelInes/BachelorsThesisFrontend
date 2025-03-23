@@ -1,0 +1,2 @@
+020655.jpg Utility_Knife 478 442 519 612
+020655.jpg Scissor 205 266 245 396
