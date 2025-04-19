@@ -1,6 +1,8 @@
 import os
 import glob
 
+from PIL import Image
+
 ANNOTATION_DIR = 'E:/facultate/licenta/implementation/diagramsGit/BachelorsThesisFrontend/image-classification-model/OPIXray/train/train_annotation'
 OUTPUT_DIR = 'E:/facultate/licenta/implementation/diagramsGit/BachelorsThesisFrontend/image-classification-model/OPIXray/train/annotation'
 IMAGE_DIR = 'E:/facultate/licenta/implementation/diagramsGit/BachelorsThesisFrontend/image-classification-model/OPIXray/train/train_image'
@@ -52,11 +54,9 @@ for ann_file in annotation_files:
                         img_width, img_height = img.size
                 except Exception as e:
                     print(f"Error opening image {img_path}: {e}")
-                    # Fallback to default dimensions if there's an error
                     img_width, img_height = 1920, 1080
                     print(f"Using default dimensions {img_width}x{img_height} for {img_name}")
 
-                # Calculate YOLO format values (normalized)
                 x_center = ((x1 + x2) / 2) / img_width
                 y_center = ((y1 + y2) / 2) / img_height
                 width = (x2 - x1) / img_width
