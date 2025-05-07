@@ -1,0 +1,1 @@
+{"command": "downloader", "Dataset": null, "yes": false, "classes": ["Scissors", "Screwdriver", "Syringe"], "type_csv": "train", "sub": null, "image_IsOccluded": null, "image_IsTruncated": null, "image_IsGroupOf": null, "image_IsDepiction": null, "image_IsInside": null, "multiclasses": "0", "n_threads": null, "noLabels": false, "limit": null, "yoloLabelStyle": false}

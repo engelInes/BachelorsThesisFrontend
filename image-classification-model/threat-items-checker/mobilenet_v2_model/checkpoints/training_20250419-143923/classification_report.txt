@@ -1,0 +1,11 @@
+              precision    recall  f1-score   support
+
+       Knife       0.98      0.97      0.97       618
+         Gun       0.96      0.98      0.97       543
+     Syringe       0.83      0.79      0.81        19
+    Scissors       0.93      0.93      0.93        59
+ Screwdriver       1.00      0.56      0.71         9
+
+    accuracy                           0.97      1248
+   macro avg       0.94      0.85      0.88      1248
+weighted avg       0.97      0.97      0.97      1248

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5d12571c-f46e-4d82-ac66-104d11e85a1c" name="Changes" comment="added checkpoints and dropout">
+      <change afterPath="$PROJECT_DIR$/test/test_train_model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/train_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobilenet_v2_model/mobilenetv2_train.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/mobilenet_v2_model/mobilenetv2_train.ipynb" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/../.." value="model-XRAY" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2ujaggQMwCijMxjfdGMMRIRpCfc" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/facultate/licenta/implementation/OID_Toolkit/OIDv6_ToolKit_Download_Open_Images_Support_Yolo_Format&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
+  }
+}</component>
+  <component name="RunManager" selected="Python tests.Python tests in test_train_model.py">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="threat-items-checker" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for test_train_model.TestWeaponsDetection.test_find_latest_checkpoint" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="threat-items-checker" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_train_model.TestWeaponsDetection.test_find_latest_checkpoint&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for test_train_model.TestWeaponsDetection.test_load_merged_data" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="threat-items-checker" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_train_model.TestWeaponsDetection.test_load_merged_data&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for test_train_model.TestWeaponsDetection.test_load_model_from_checkpoint" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="threat-items-checker" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_train_model.TestWeaponsDetection.test_load_model_from_checkpoint&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for test_train_model.TestWeaponsDetection.test_visualize_results" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="threat-items-checker" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_train_model.TestWeaponsDetection.test_visualize_results&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in test_train_model.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="threat-items-checker" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/test/test_train_model.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python tests.Python tests in test_train_model.py" />
+        <item itemvalue="Python tests.Python tests for test_train_model.TestWeaponsDetection.test_visualize_results" />
+        <item itemvalue="Python tests.Python tests for test_train_model.TestWeaponsDetection.test_load_merged_data" />
+        <item itemvalue="Python tests.Python tests for test_train_model.TestWeaponsDetection.test_load_model_from_checkpoint" />
+        <item itemvalue="Python tests.Python tests for test_train_model.TestWeaponsDetection.test_find_latest_checkpoint" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5d12571c-f46e-4d82-ac66-104d11e85a1c" name="Changes" comment="" />
+      <created>1742764549583</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1742764549583</updated>
+      <workItem from="1742764551078" duration="1493000" />
+      <workItem from="1742836491614" duration="1508000" />
+      <workItem from="1743578639736" duration="1191000" />
+      <workItem from="1743963921332" duration="2425000" />
+      <workItem from="1744009352385" duration="5608000" />
+      <workItem from="1744022441392" duration="658000" />
+      <workItem from="1744023496233" duration="240000" />
+      <workItem from="1744023750237" duration="51000" />
+      <workItem from="1744023910507" duration="448000" />
+      <workItem from="1744024508418" duration="6627000" />
+      <workItem from="1744301008300" duration="632000" />
+      <workItem from="1744463840526" duration="1543000" />
+      <workItem from="1744482066444" duration="1506000" />
+      <workItem from="1745053577239" duration="7646000" />
+      <workItem from="1745062637213" duration="2285000" />
+      <workItem from="1745065775505" duration="945000" />
+      <workItem from="1745147172771" duration="94000" />
+      <workItem from="1745147278017" duration="617000" />
+      <workItem from="1745162796357" duration="867000" />
+      <workItem from="1745223905457" duration="611000" />
+      <workItem from="1745475212830" duration="352000" />
+      <workItem from="1745475578431" duration="593000" />
+      <workItem from="1745494655625" duration="1242000" />
+      <workItem from="1745832810350" duration="603000" />
+      <workItem from="1746088887755" duration="812000" />
+      <workItem from="1746113907202" duration="618000" />
+      <workItem from="1746212801574" duration="1047000" />
+      <workItem from="1746269801358" duration="2280000" />
+      <workItem from="1746614844873" duration="3197000" />
+    </task>
+    <task id="LOCAL-00001" summary="added checkpoints and dropout">
+      <created>1745066116318</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1745066116318</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="added checkpoints and dropout" />
+    <option name="LAST_COMMIT_MESSAGE" value="added checkpoints and dropout" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/threat_items_checker$main.coverage" NAME="main Coverage Results" MODIFIED="1744023999810" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/threat_items_checker$.coverage" NAME=" Coverage Results" MODIFIED="1746616020344" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
+    <SUITE FILE_PATH="coverage/threat_items_checker$train_mobilnet_model.coverage" NAME="train_mobilnet_model Coverage Results" MODIFIED="1745162920342" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mobilenet_v2_model" />
+    <SUITE FILE_PATH="coverage/threat_items_checker$split_dataset.coverage" NAME="split_dataset Coverage Results" MODIFIED="1745057704813" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/threat_items_checker$create_test_and_train_files.coverage" NAME="create_test_and_train_files Coverage Results" MODIFIED="1742765191631" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>
