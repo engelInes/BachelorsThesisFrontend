@@ -1,0 +1,15 @@
+# Dataset configuration for X-ray threat detection
+
+# Path to dataset root directory
+path: E:/facultate/licenta/implementation/diagramsGit/BachelorsThesisFrontend/image-classification-model/x-ray-detection/dataset/roboflow
+
+# Training/validation sets
+train: train/images
+val: valid/images
+test: test/images
+
+# Number of classes
+nc: 6
+
+# Class names
+names: ['gun', 'knife', 'pin', 'razor', 'shuriken', 'snail']

@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 6
+names: ['gun', 'knife', 'pin', 'razor', 'shuriken', 'snail']
+
+roboflow:
+  workspace: xraydataset
+  project: xray-2hbul
+  version: 5
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/xraydataset/xray-2hbul/dataset/5
